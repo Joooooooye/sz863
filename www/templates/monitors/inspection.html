@@ -1,5 +1,52 @@
 <div class="tab-pane fade in active">
-    <div style="padding-bottom: 30px">
-hi
+	<!-- <div class="row">
+        <div class="col-xs-2" style="text-align: center;font-size: 15px;margin-top: 0px;width:auto;float: right;">
+	        <uib-tabset  vertical="false"  data-toggle="tab">
+	            <uib-tab index="0" heading="医学检查建议" select="examRec()"></uib-tab>
+	            <uib-tab index="1" heading="疾病筛查建议" select="screenRec()"></uib-tab>
+	        </uib-tabset>
+    	</div>
+    </div> -->
+    <div class="row">
+		<div class="col-sm-6" id="examRec">
+			<div class="myCard">
+		      	<h3 class="card-title cardTitle">医学检查建议</h3>
+		      	<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+			</div>
+		</div>
+		<div class="col-sm-6" id="screenRec">
+			<div class="myCard">
+		      	<h3 class="card-title cardTitle">疾病筛查建议</h3>
+		      	<div ng-repeat="screen in screens">
+		      		<h5 class="label label-warning" style="font-size: 12px;margin-top: 10px;display: inline-block;">{{screen.ScreenRec}}</h5>
+		      		<ol style="margin-top: 10px" class="must">
+		      			<li ng-if="screen.LabExam">{{screen.LabExam}}</li>
+		      			<li ng-if="screen.PhyExam">{{screen.PhyExam}}</li>
+		      			<li ng-if="screen.SpeExam">{{screen.SpeExam}}</li>
+		      		</ol>
+		      		<p class="card-text" style="text-indent: 2em;color:#337ab7;font-size: 12px" ng-if="screen.note!='-1'">{{screen.note}}</p>
+		      		<ol style="color:#aaa" ng-if="screen.LabExamOp || screen.PhyExamOp||screen.SpeExamOp" class="optional">可选检查
+		      			<li ng-if="screen.LabExamOp">{{screen.LabExamOp}}</li>
+		      			<li ng-if="screen.PhyExamOp">{{screen.PhyExamOp}}</li>
+		      			<li ng-if="screen.SpeExamOp">{{screen.SpeExamOp}}</li>
+		      		</ol>
+
+		      		
+		      	</div>
+		      	
+			</div>
+		</div>
+	</div>
+
+    <div style="padding-bottom: 30px" id="examRec" >
+
+    </div>
+
+    <div style="padding-bottom: 30px" id="screenRec">
+    	<div ng-repeat="item in items" class="card">
+			
+    		
+    	</div>
+
     </div>
   </div>

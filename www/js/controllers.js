@@ -24,7 +24,7 @@
         User.set('kingsley', {password: 'kingsley,,,', role: 'administrator'})
         return function (logInfo) {
           var result = User.get(logInfo.name)
-          console.log(result)
+          // console.log(result)
           if (result) {
             return (result.password === logInfo.password && result.role === logInfo.role) ? logInfo.name : undefined
           }
@@ -45,9 +45,7 @@
 
             Ontology.readONT().then(function (data) {
               // 本体读入
-              if (data.flag === 1) {
-                $state.go('main.select')
-              }
+              $state.go('main.select')
             })
           } else {
 
@@ -144,7 +142,10 @@
 
     .controller('inspectionCtrl', ['$scope', 'Storage', '$state', 'ExamRecommended',
       function ($scope, Storage, $state, ExamRecommended) {
-        ExamRecommended.getExamRec(Storage.get('currentPatient'))
+        ExamRecommended.getScreenRec(Storage.get('currentPatient')).then(function (data) {
+          // console.log(data)
+          $scope.screens = data
+        })
       }
     ])
     .controller('riskCtrl', ['$scope', 'Storage', 'Data', '$state',
@@ -152,8 +153,8 @@
 
       }
     ])
-    .controller('medicineCtrl', ['$scope', 'Storage', 'Data', '$state',
-      function ($scope, Storage, Data, $state) {
+    .controller('medicineCtrl', ['$scope', 'Storage', '$state',
+      function ($scope, Storage, $state) {
 
       }
     ])
