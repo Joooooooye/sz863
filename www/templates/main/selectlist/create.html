@@ -7,7 +7,7 @@
 
                 <div class="col-md-6" style="margin-top: 20px">
                     <div class="form-group">
-                        <label for="height" class="col-sm-4 control-label">身高(cm)</label>
+                        <label for="height" class="col-sm-4 control-label">身高(m)</label>
                         <div class="col-sm-8">
                             <input type="number" class="form-control" id="height" ng-model="pat.height"
                                    placeholder="请输入身高">
@@ -154,8 +154,15 @@
                         <input type="checkbox" value="{{habit.value}}" ng-model="multi.multihaits[habit.value]" ng-true-value="'{{habit.property}}'" ng-false-value="''">{{habit.name}}
                     </label>
                 </div>
-                <label for="exercise" class="control-label" style="margin-top: 30px" >每周运动时间(min)</label>
+                <label for="exercise" class="control-label" style="margin-top: 15px" >每周运动时间(min)</label>
                 <input type="number" class="form-control" id="exercise" placeholder="请输入每周运动时间(min)" ng-model="pat.exercise">
+
+                <h3 class="card-title cardTitle">检查结果（可多选）</h3>
+                <div class="checkbox" ng-repeat="exam in exams">
+                    <label  for="{{habexamit.name}}" >
+                        <input type="checkbox" value="{{exam.value}}" ng-model="multi.multiexams[exam.value]" ng-true-value="'{{exam.property}}'" ng-false-value="''">{{exam.name}}
+                    </label>
+                </div>
                 
 
             </div>
