@@ -128,8 +128,8 @@
             file = input.files[0]
             fr = new FileReader()
             fr.onload = function () {
-              // Storage.set('tempInfo', fr.result)
-              console.log(fr.result)
+              Storage.set('tempInfo', fr.result)
+              // console.log(fr.result)
               var info = JSON.parse(fr.result)
               $scope.pat = info.basic
             }
@@ -167,21 +167,31 @@
         $scope.inputPage = 1
         $scope.previous = false
         $scope.buttonText = '下一步'
-        $scope.pat = {}
-        $scope.multi = {
-          multiphysical: {},
-          multihaits: {},
-          multiendocrines: {},
-          multicardios: {},
-          multikidneys: {},
-          multibloods: {},
-          multihearts: {},
-          multibreathes: {},
-          multibrains: {},
-          multiothers: {},
-          multiallergy: {}
+        var file = Storage.get('tempInfo')
+        if (file) {
+          file = JSON.parse(file)
+          $scope.pat = file.patBasic
+          $scope.multi = file.multi
+          Storage.rm('tempInfo')
+        } else {
+          $scope.pat = {}
+          $scope.multi = {
+            multiphysical: {},
+            multihaits: {},
+            multiendocrines: {},
+            multicardios: {},
+            multikidneys: {},
+            multibloods: {},
+            multihearts: {},
+            multibreathes: {},
+            multibrains: {},
+            multiothers: {},
+            multiallergy: {},
+            multiexams: {}
 
+          }
         }
+
         $scope.next = function (pat, multi) {
           console.log(multi)
 
@@ -470,7 +480,34 @@
             property: 'P_hasGeneralBodyStateFindingAcu',
             value: 'DisturbanceOfConsciousness'
           }
+        ]
 
+        $scope.exams = [
+          {
+            name: 'CoxA16病毒阳性',
+            property: 'P_hasExamResult',
+            value: 'Positive_CoxA16'
+          },
+          {
+            name: 'EV71病毒阳性',
+            property: 'P_hasExamResult',
+            value: 'Positive_EV71'
+          },
+          {
+            name: '甲型流感病毒阳性',
+            property: 'P_hasExamResult',
+            value: 'Positive_InfluenzaTypeA'
+          },
+          {
+            name: '乙型流感病毒阳性',
+            property: 'P_hasExamResult',
+            value: 'Positive_InfluenzaTypeB'
+          },
+          {
+            name: '丙型流感病毒阳性',
+            property: 'P_hasExamResult',
+            value: 'Positive_InfluenzaTypeC'
+          }
         ]
         $scope.drugs = [
           {
@@ -1037,24 +1074,24 @@
             word: '糖化血红蛋白',
             code: 'hba1c'
           }, {
-              word: '高密度脂蛋白胆固醇',
-              code: 'hdl'
-            }, {
-                word: '低密度脂蛋白胆固醇',
-                code: 'ldl'
-              }, {
-                word: '总胆固醇',
-                code: 'tc'
-              }, {
-                  word: '甘油三酯',
-                  code: 'tg'
-                }, {
-                  word: '尿白蛋白/肌酐比值',
-                  code: 'acr'
-                }, {
-                  word: '尿白蛋白排泄率',
-                  code: 'uae'
-                }]
+            word: '高密度脂蛋白胆固醇',
+            code: 'hdl'
+          }, {
+            word: '低密度脂蛋白胆固醇',
+            code: 'ldl'
+          }, {
+            word: '总胆固醇',
+            code: 'tc'
+          }, {
+            word: '甘油三酯',
+            code: 'tg'
+          }, {
+            word: '尿白蛋白/肌酐比值',
+            code: 'acr'
+          }, {
+            word: '尿白蛋白排泄率',
+            code: 'uae'
+          }]
           var results = new Map()
                 // console.log(data)
           if (data.total != -1) {

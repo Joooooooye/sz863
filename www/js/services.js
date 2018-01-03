@@ -52,7 +52,7 @@
             // 向患者输入数据属性，即添加患者信息,输入：string guid, string value, string property
           addPatProperty: { method: 'POST', params: { route: 'addObjProperty', guid: '@guid' }, timeout: period },
           addDataProperty: { method: 'POST', params: { route: 'addDataProperty', guid: '@guid' }, timeout: period },
-          createPat: { method: 'POST', params: { route: 'crePatient' }, timeout: period },
+          createPat: { method: 'POST', params: { route: 'crePatient', flag: 1 }, timeout: period },
           // 获取当前患者信息
           PatientInfo: { method: 'GET', params: { route: 'PatientInfo', guid: '@guid' }, timeout: period }
         })
