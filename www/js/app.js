@@ -83,6 +83,11 @@ angular.module('IntelligentDetector', ['ui.router', 'ui.bootstrap', 'controllers
                   templateUrl: 'templates/main/monitors/assess.html',
                   controller: 'assessCtrl'
                 })
+                .state('fishbone', {
+                  url: '/fishbone',
+                  templateUrl: 'templates/fishbone.html',
+                  controller: 'fishboneCtrl'
+                })
       }
     ])
 

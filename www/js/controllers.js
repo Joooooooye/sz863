@@ -38,18 +38,17 @@
                 // 可能是管理员 也可能是 医生
           $scope.logStatus = '恭喜您！登录成功。'
 
-          if (login.role === 'doctor') {
-            Storage.set('currentUser', user)
-            Storage.set('currentrole', login.role)
+          Storage.set('currentUser', user)
+          Storage.set('currentrole', login.role)
 
             // currentUser记录当前登录用户以及用户角色
-
+          if (login.role === 'doctor') {
             Ontology.readONT().then(function (data) {
                         // 本体读入
               $state.go('main.selectlist.select')
             })
           } else {
-
+            $state.go('fishbone')
           }
         } else {
           $scope.logStatus = '用户名或密码错误。'
@@ -602,3 +601,38 @@
         }
       }
     ])
+
+    .controller('fishboneCtrl', ['$scope', 'Storage', '$state', function ($scope, Storage, $state) {
+      $scope.UserName = Storage.get('currentUser')
+      $scope.Role = Storage.get('currentrole')
+      $scope.logout = function () {
+        $state.go('login')
+        Storage.clear()
+      }
+      $scope.level = '1' // 默认蓝
+      $scope.changelv = function () {
+        if ($scope.level == '1') {
+          $('#fishBone01').fishBone(data_h4)
+          $('#fishBone02').fishBone(data_f4)
+          $('#fishBone03').fishBone(data_b4)
+        } else if ($scope.level == '2') {
+          $('#fishBone01').fishBone(data_h3)
+          $('#fishBone02').fishBone(data_f3)
+          $('#fishBone03').fishBone(data_b3)
+        } else if ($scope.level == '3') {
+          $('#fishBone01').fishBone(data_h2)
+          $('#fishBone02').fishBone(data_f2)
+          $('#fishBone03').fishBone(data_b2)
+        } else if ($scope.level == '4') {
+          $('#fishBone01').fishBone(data_h1)
+          $('#fishBone02').fishBone(data_f1)
+          $('#fishBone03').fishBone(data_b1)
+        }
+      }
+      // var htmlobj = $.ajax({url: '/templates/ONTO1.json', async: false})
+      // var dataString = htmlobj.responseText
+      // console.log(dataString)
+      // var data = JSON.parse(dataString)
+      // // var data = eval('(' + dataString + ')')// 转换为json对象();
+      // console.log(data)
+    }])
