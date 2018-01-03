@@ -7,58 +7,58 @@
 
                 <div class="col-md-6" style="margin-top: 20px">
                     <div class="form-group">
-                        <label for="height" class="col-sm-4 control-label">身高(cm)</label>
+                        <label for="height" class="col-sm-4 control-label">身高(m)</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" id="height" 
+                            <input type="number" class="form-control" id="height" ng-model="pat.height"
                                    placeholder="请输入身高">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="lastname" class="col-sm-4 control-label">体重(kg)</label>
+                        <label for="weight" class="col-sm-4 control-label">体重(kg)</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" id="lastname" 
+                            <input type="number" class="form-control" id="weight" ng-model="pat.weight"
                                    placeholder="请输入体重">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="Hpressure" class="col-sm-4 control-label">收缩压(mmHg)</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" id="Hpressure" 
+                            <input type="number" class="form-control" id="Hpressure" ng-model ="pat.Hpressure"
                                    placeholder="请输入收缩压">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="Lpressure" class="col-sm-4 control-label">舒张压(mmHg)</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" id="Lpressure" 
+                            <input type="number" class="form-control" id="Lpressure"  ng-model ="pat.Lpressure"
                                    placeholder="请输入舒张压">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="sugar" class="col-sm-4 control-label">空腹血糖</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" id="sugar" 
+                            <input type="number" class="form-control" id="sugar" ng-model ="pat.sugar"
                                    placeholder="请输入空腹血糖">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="sugar2h" class="col-sm-4 control-label">糖耐受2小时后血糖</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" id="sugar2h" 
+                            <input type="number" class="form-control" id="sugar2h"  ng-model ="pat.sugar2h"
                                    placeholder="请输入糖耐受2小时后血糖">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="sProtein" class="col-sm-4 control-label">糖化血红蛋白</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" id="sProtein" 
+                            <input type="number" class="form-control" id="sProtein" ng-model ="pat.sProtein"
                                    placeholder="请输入糖化血红蛋白">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="HPL" class="col-sm-4 control-label">高密度脂蛋白胆固醇</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" id="HPL" 
+                            <input type="number" class="form-control" id="HPL" ng-model ="pat.HPL"
                                    placeholder="请输入高密度脂蛋白胆固醇">
                         </div>
                     </div>
@@ -67,57 +67,64 @@
                     <div class="form-group">
                         <label for="LPL" class="col-sm-4 control-label">低密度脂蛋白胆固醇</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" id="LPL" 
+                            <input type="number" class="form-control" id="LPL" ng-model ="pat.LPL"
                                    placeholder="请输入低密度脂蛋白胆固醇">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="cholesterol" class="col-sm-4 control-label">总胆固醇</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" id="cholesterol" 
+                            <input type="number" class="form-control" id="cholesterol" ng-model ="pat.cholesterol"
                                    placeholder="请输入总胆固醇">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="Triglycerides" class="col-sm-4 control-label">甘油三酯</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" id="Triglycerides" 
+                            <input type="number" class="form-control" id="Triglycerides" ng-model ="pat.Triglycerides"
                                    placeholder="请输入甘油三酯">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="urineRatio" class="col-sm-4 control-label">尿白蛋白/肌酐比值</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" id="urineRatio" 
+                            <input type="number" class="form-control" id="urineRatio" ng-model ="pat.urineRatio"
                                    placeholder="请输入尿白蛋白/肌酐比值">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="ecr" class="col-sm-4 control-label">尿白蛋白排泄率</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" id="ecr" 
+                            <input type="number" class="form-control" id="ecr" ng-model ="pat.ecr"
                                    placeholder="请输入尿白蛋白排泄率">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="Homocysteine" class="col-sm-4 control-label">同型半胱氨酸</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" id="Homocysteine" 
+                            <input type="number" class="form-control" id="Homocysteine"  ng-model ="pat.Homocysteine"
                                    placeholder="请输入同型半胱氨酸">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="phosphokinase" class="col-sm-4 control-label">磷酸肌酸激酶</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" id="phosphokinase" 
+                            <input type="number" class="form-control" id="phosphokinase"  ng-model ="pat.phosphokinase"
                                    placeholder="请输入磷酸肌酸激酶">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="aminotransferase" class="col-sm-4 control-label">丙氨酸转氨酶</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" id="aminotransferase" 
+                            <input type="number" class="form-control" id="aminotransferase"  ng-model ="pat.aminotransferase"
                                    placeholder="请输入丙氨酸转氨酶">
+                        </div>
+                    </div>
+                     <div class="form-group">
+                        <label for="strokeHour" class="col-sm-4 control-label">卒中发病时间</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control" id="strokeHour"  ng-model ="pat.strokeHour"
+                                   placeholder="请输入卒中发病时间">
                         </div>
                     </div>
                 </div>
@@ -130,9 +137,9 @@
                 <h3 class="card-title cardTitle">生理体征(可多选)</h3>
                 
                 
-                <div class="checkbox" ng-repeat="phy in phys">
+                <div class="checkbox col-xs-6" ng-repeat="phy in phys" >
                     <label  for="{{phy.name}}" >
-                        <input type="checkbox" value="{{phy.value}}">{{phy.name}}
+                        <input type="checkbox" value="{{phy.value}}" ng-model="multi.multiphysical[phy.value]" ng-true-value="'{{phy.property}}'" ng-false-value="''">{{phy.name}}
                     </label>
                 </div>
                 
@@ -144,11 +151,18 @@
                 <h3 class="card-title cardTitle">生活习惯和家族信息（可多选）</h3>
                 <div class="checkbox" ng-repeat="habit in habits">
                     <label  for="{{habit.name}}" >
-                        <input type="checkbox" value="{{habit.value}}">{{habit.name}}
+                        <input type="checkbox" value="{{habit.value}}" ng-model="multi.multihaits[habit.value]" ng-true-value="'{{habit.property}}'" ng-false-value="''">{{habit.name}}
                     </label>
                 </div>
-                <label for="exercise" class="control-label" style="margin-top: 30px" >每周运动时间(h)</label>
-                <input type="number" class="form-control" id="exercise" placeholder="请输入每周运动时间(h)">
+                <label for="exercise" class="control-label" style="margin-top: 15px" >每周运动时间(min)</label>
+                <input type="number" class="form-control" id="exercise" placeholder="请输入每周运动时间(min)" ng-model="pat.exercise">
+
+                <h3 class="card-title cardTitle">检查结果（可多选）</h3>
+                <div class="checkbox" ng-repeat="exam in exams">
+                    <label  for="{{habexamit.name}}" >
+                        <input type="checkbox" value="{{exam.value}}" ng-model="multi.multiexams[exam.value]" ng-true-value="'{{exam.property}}'" ng-false-value="''">{{exam.name}}
+                    </label>
+                </div>
                 
 
             </div>
@@ -156,7 +170,22 @@
 
             
         </div>
-        <div class="row" ng-show="inputPage==3">
+        <div class="row" ng-show ="inputPage==3">
+            <div class="col-md-1"></div>
+            <div class="myCard col-md-11">
+                <h3 class="card-title cardTitle">过敏药物(可多选)</h3>
+                
+                
+                <div class="checkbox col-xs-4" ng-repeat="drug in drugs" >
+                    <label  for="{{drug.name}}" >
+                        <input type="checkbox" value="{{drug.value}}" ng-model="multi.multiallergy[drug.value]" ng-true-value="'{{drug.property}}'" ng-false-value="''">{{drug.name}}
+                    </label>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="row" ng-show="inputPage==4">
             <div class="col-md-1"></div>
             <div class="myCard col-md-11">
                 <h3 class="card-title cardTitle">诊断结果（可多选）</h3>
@@ -165,7 +194,7 @@
                         <h5 class="label label-warning" style="font-size: 12px;margin-top: 10px;display: inline-block;">内分泌疾病</h5> 
                         <div class="checkbox" ng-repeat="diag in diags.endocrine">
                             <label  for="{{diag.name}}" style="font-size: 15px">
-                                <input type="checkbox" value="{{diag.value}}">{{diag.name}}
+                                <input type="checkbox" value="{{diag.value}}" ng-model="multi.multiendocrines[diag.value]" ng-true-value="'{{diag.property}}'" ng-false-value="''">{{diag.name}}
                             </label>
                         </div>
                     </div>
@@ -173,7 +202,7 @@
                         <h5 class="label label-warning" style="font-size: 12px;margin-top: 10px;display: inline-block;">心血管疾病</h5> 
                         <div class="checkbox" ng-repeat="diag in diags.cardio">
                             <label  for="{{diag.name}}" >
-                                <input type="checkbox" value="{{diag.value}}">{{diag.name}}
+                                <input type="checkbox" value="{{diag.value}}" ng-model="multi.multicardios[diag.value]" ng-true-value="'{{diag.property}}'" ng-false-value="''">{{diag.name}}
                             </label>
                         </div>
                     </div>
@@ -181,7 +210,7 @@
                         <h5 class="label label-warning" style="font-size: 12px;margin-top: 10px;display: inline-block;">肾脏疾病</h5> 
                         <div class="checkbox" ng-repeat="diag in diags.kidney">
                             <label  for="{{diag.name}}" >
-                                <input type="checkbox" value="{{diag.value}}">{{diag.name}}
+                                <input type="checkbox" value="{{diag.value}}" ng-model="multi.multikidneys[diag.value]" ng-true-value="'{{diag.property}}'" ng-false-value="''">{{diag.name}}
                             </label>
                         </div>
                     </div>
@@ -189,7 +218,7 @@
                         <h5 class="label label-warning" style="font-size: 12px;margin-top: 10px;display: inline-block;">血液疾病</h5> 
                         <div class="checkbox" ng-repeat="diag in diags.blood">
                             <label  for="{{diag.name}}" >
-                                <input type="checkbox" value="{{diag.value}}">{{diag.name}}
+                                <input type="checkbox" value="{{diag.value}}" ng-model="multi.multibloods[diag.value]" ng-true-value="'{{diag.property}}'" ng-false-value="''">{{diag.name}}
                             </label>
                         </div>
                     </div>
@@ -201,7 +230,7 @@
                         <h5 class="label label-warning" style="font-size: 12px;margin-top: 10px;display: inline-block;">心脏疾病</h5> 
                         <div class="checkbox" ng-repeat="diag in diags.heart">
                             <label  for="{{diag.name}}" >
-                                <input type="checkbox" value="{{diag.value}}">{{diag.name}}
+                                <input type="checkbox" value="{{diag.value}}" ng-model="multi.multihearts[diag.value]" ng-true-value="'{{diag.property}}'" ng-false-value="''">{{diag.name}}
                             </label>
                         </div>
                     </div>
@@ -210,7 +239,7 @@
                         <h5 class="label label-warning" style="font-size: 12px;margin-top: 10px;display: inline-block;">呼吸系统疾病</h5> 
                         <div class="checkbox" ng-repeat="diag in diags.breathe">
                             <label  for="{{diag.name}}" >
-                                <input type="checkbox" value="{{diag.value}}">{{diag.name}}
+                                <input type="checkbox" value="{{diag.value}}" ng-model="multi.multibreathes[diag.value]" ng-true-value="'{{diag.property}}'" ng-false-value="''">{{diag.name}}
                             </label>
                         </div>
                     </div>
@@ -219,7 +248,7 @@
                         <h5 class="label label-warning" style="font-size: 12px;margin-top: 10px;display: inline-block;">脑血管疾病</h5> 
                         <div class="checkbox" ng-repeat="diag in diags.brain">
                             <label  for="{{diag.name}}" >
-                                <input type="checkbox" value="{{diag.value}}">{{diag.name}}
+                                <input type="checkbox" value="{{diag.value}}" ng-model="multi.multibrains[diag.value]" ng-true-value="'{{diag.property}}'" ng-false-value="''">{{diag.name}}
                             </label>
                         </div>
                     </div>
@@ -228,7 +257,7 @@
                         <h5 class="label label-warning" style="font-size: 12px;margin-top: 10px;display: inline-block;">其他疾病</h5> 
                         <div class="checkbox" ng-repeat="diag in diags.other">
                             <label  for="{{diag.name}}" >
-                                <input type="checkbox" value="{{diag.value}}">{{diag.name}}
+                                <input type="checkbox" value="{{diag.value}}" ng-model="multi.multiothers[diag.value]" ng-true-value="'{{diag.property}}'" ng-false-value="''">{{diag.name}}
                             </label>
                         </div>
                         
@@ -244,7 +273,7 @@
         <button type="button" class="btn btn-primary" style="position: fixed; bottom: 400px; right: 80px;" ng-show="previous" ng-click="last()">
             上一步
         </button>
-        <button type="button" class="btn btn-primary" style="position: fixed; bottom: 350px; right: 80px;" ng-click="next()">
+        <button type="button" class="btn btn-primary" style="position: fixed; bottom: 350px; right: 80px;" ng-click="next(pat,multi)">
             {{buttonText}}
         </button>
        

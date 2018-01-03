@@ -12,7 +12,7 @@
                 
             </div>
             <div class="col-md-4" style="text-align: center;">
-                <h5 class="label label-warning" style="font-size: 12px;margin-top: 10px;display: inline-block;text-align: center;">不建议用药方案</h5> 
+                <h5 class="label label-danger" style="font-size: 12px;margin-top: 10px;display: inline-block;text-align: center;">不建议用药方案</h5> 
                 <div ng-repeat="unrec in group.MedUnRec" style="text-align: left;">
                     <button type="button" class="btn btn-link" ng-click="medicine('unrec',$index)" style="color: #f0ad4e"> {{unrec}}
                     </button>
@@ -21,7 +21,7 @@
                
             </div>
             <div class="col-md-4" style="text-align: center;">
-                <h5 class="label label-danger" style="font-size: 12px;margin-top: 10px;display: inline-block;text-align: center;">警惕用药方案</h5> 
+                <h5 class="label label-warning" style="font-size: 12px;margin-top: 10px;display: inline-block;text-align: center;">警惕用药方案</h5> 
                 <div ng-repeat="caution in group.MedCauRec" style="text-align: left;">
                     <button type="button" class="btn btn-link" ng-click="medicine('caution',$index)" style="color: #d9534f"> {{caution}}
                     </button>

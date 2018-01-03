@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-sm-4">
+    <div class="col-sm-3">
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3 class="panel-title">饮食建议</h3>
@@ -24,7 +24,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-3">
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3 class="panel-title">运动建议</h3>
@@ -32,15 +32,16 @@
             <div class="panel-body">
                 <div ng-repeat="exerrec in exerreclist">
                     <div class="gridTex">
-                        <div ng-if="exerrec.exername" style="margin-top: 10px;margin-left:10px"><b>建议运动名称：</b>{{exerrec.exername}}</div>
-                        <div ng-if="exerrec.exeritem" style="margin-top: 10px;margin-left:10px"><b>建议运动项目：</b>{{exerrec.exeritem}}</div>
-                        <div ng-if="exerrec.exertime" style="margin-top: 10px;margin-left:10px"><b>建议运动时间：</b>{{exerrec.exertime}} {{exerrec.exerunit}}</div>
+
+                        <div ng-if="exerrec.exername" style="margin-top: 10px;margin-left:10px"><b>建议运动名称：</b><br>{{exerrec.exername}}</div>
+                        <div ng-if="exerrec.exeritem" style="margin-top: 10px;margin-left:10px"><b>建议运动项目：</b><br>{{exerrec.exeritem}}</div>
+                        <div ng-if="exerrec.exertime" style="margin-top: 10px;margin-left:10px"><b>建议运动时间：</b><br>{{exerrec.exertime}} {{exerrec.exerunit}}</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-3">
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3 class="panel-title">生理指标的控制目标</h3>
@@ -48,18 +49,32 @@
             <div class="panel-body">
                 <!-- <div ng-repeat="ctrl in ctrlgoal"> -->
                     <div class="gridTex">
-                    <div style="margin-top: 10px;margin-left:10px" ng-if="ctrl.bmi"><b>BMI：</b>{{ctrl.bmi}}</div>
-                    <div style="margin-top: 10px;margin-left:10px" ng-if="ctrl.glu"><b>空腹血糖：</b>{{ctrl.glu}}</div>
-                    <div style="margin-top: 10px;margin-left:10px" ng-if="ctrl.glu2h"><b>糖耐受2小时后血糖：</b>{{ctrl.glu2h}}</div>
-                    <div style="margin-top: 10px;margin-left:10px" ng-if="ctrl.hba1c"><b>糖化血红蛋白：</b>{{ctrl.hba1c}}</div>
-                    <div style="margin-top: 10px;margin-left:10px" ng-if="ctrl.hdl"><b>高密度脂蛋白胆固醇：</b>{{ctrl.hdl}}</div>
-                    <div style="margin-top: 10px;margin-left:10px" ng-if="ctrl.ldl"><b>低密度脂蛋白胆固醇：</b>{{ctrl.ldl}}</div>
-                    <div style="margin-top: 10px;margin-left:10px" ng-if="ctrl.tc"><b>总胆固醇：</b>{{ctrl.tc}}</div>
-                    <div style="margin-top: 10px;margin-left:10px" ng-if="ctrl.tg"><b>甘油三酯：</b>{{ctrl.tg}}</div>
-                    <div style="margin-top: 10px;margin-left:10px" ng-if="ctrl.acr"><b>尿白蛋白/肌酐比值：</b>{{ctrl.acr}}</div>
-                    <div style="margin-top: 10px;margin-left:10px" ng-if="ctrl.uae"><b>尿白蛋白排泄率：</b>{{ctrl.uae}}</div>
-                    <div style="margin-top: 10px;margin-left:10px" ng-if="ctrl.sys"><b>收缩压：</b>{{ctrl.sys}}</div>
-                    <div style="margin-top: 10px;margin-left:10px" ng-if="ctrl.dia"><b>舒张压：</b>{{ctrl.dia}}</div>
+                    <div style="margin-top: 10px;margin-left:10px" ng-if="ctrl.bmi!=-1"><b>BMI：</b>{{ctrl.bmi}}</div>
+                    <div style="margin-top: 10px;margin-left:10px" ng-if="ctrl.glu!=-1"><b>空腹血糖：</b>{{ctrl.glu}}</div>
+                    <div style="margin-top: 10px;margin-left:10px" ng-if="ctrl.glu2h!=-1"><b>糖耐受2小时后血糖：</b>{{ctrl.glu2h}}</div>
+                    <div style="margin-top: 10px;margin-left:10px" ng-if="ctrl.hba1c!=-1"><b>糖化血红蛋白：</b>{{ctrl.hba1c}}</div>
+                    <div style="margin-top: 10px;margin-left:10px" ng-if="ctrl.hdl!=-1"><b>高密度脂蛋白胆固醇：</b>{{ctrl.hdl}}</div>
+                    <div style="margin-top: 10px;margin-left:10px" ng-if="ctrl.ldl!=-1"><b>低密度脂蛋白胆固醇：</b>{{ctrl.ldl}}</div>
+                    <div style="margin-top: 10px;margin-left:10px" ng-if="ctrl.tc!=-1"><b>总胆固醇：</b>{{ctrl.tc}}</div>
+                    <div style="margin-top: 10px;margin-left:10px" ng-if="ctrl.tg!=-1"><b>甘油三酯：</b>{{ctrl.tg}}</div>
+                    <div style="margin-top: 10px;margin-left:10px" ng-if="ctrl.acr!=-1"><b>尿白蛋白/肌酐比值：</b>{{ctrl.acr}}</div>
+                    <div style="margin-top: 10px;margin-left:10px" ng-if="ctrl.uae!=-1"><b>尿白蛋白排泄率：</b>{{ctrl.uae}}</div>
+                    <div style="margin-top: 10px;margin-left:10px" ng-if="ctrl.sys!=-1"><b>收缩压：</b>{{ctrl.sys}}</div>
+                    <div style="margin-top: 10px;margin-left:10px" ng-if="ctrl.dia!=-1"><b>舒张压：</b>{{ctrl.dia}}</div>
+                </div>
+                <!-- </div> -->
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">生活习惯建议</h3>
+            </div>
+            <div class="panel-body">
+                <!-- <div ng-repeat="ctrl in ctrlgoal"> -->
+                <div class="gridTex" ng-repeat="habit in habits">
+                    <div ng-if="habit.habitdetail!=-1" style="margin-top: 10px;margin-left:10px"><b>{{habit.habitname}}：</b><br>{{habit.habitdetail}}</div>
                 </div>
                 <!-- </div> -->
             </div>

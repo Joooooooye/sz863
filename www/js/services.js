@@ -51,7 +51,8 @@
         }, {
             // 向患者输入数据属性，即添加患者信息,输入：string guid, string value, string property
           addPatProperty: { method: 'POST', params: { route: 'addObjProperty', guid: '@guid' }, timeout: period },
-          createPat: { method: 'POST', params: { route: 'crePatient' }, timeout: period },
+          addDataProperty: { method: 'POST', params: { route: 'addDataProperty', guid: '@guid' }, timeout: period },
+          createPat: { method: 'POST', params: { route: 'crePatient', flag: 1 }, timeout: period },
           // 获取当前患者信息
           PatientInfo: { method: 'GET', params: { route: 'PatientInfo', guid: '@guid' }, timeout: period }
         })
@@ -106,7 +107,8 @@
           exerciseRec: { method: 'GET', params: { route: 'ExerciseRec', guid: '@guid'}, timeout: period },
           // 推理给出患者生理指标的控制目标。
           controlGoal: { method: 'GET', params: { route: 'ControlGoal', guid: '@guid'}, timeout: period },
-          patControl: { method: 'GET', params: { route: 'PControlGoal', guid: '@guid'}, timeout: period }
+          patControl: { method: 'GET', params: { route: 'PControlGoal', guid: '@guid'}, timeout: period },
+          habitRec: { method: 'GET', params: { route: 'HabitRec', guid: '@guid'}, timeout: period }
 
         })
       }
@@ -176,6 +178,15 @@
       self.addPatProperty = function (obj) {
         var deferred = $q.defer()
         Data.InfoInput.addPatProperty(obj, function (data, headers) {
+          deferred.resolve(data)
+        }, function (err) {
+          deferred.reject(err)
+        })
+        return deferred.promise
+      }
+      self.addDataProperty = function (obj) {
+        var deferred = $q.defer()
+        Data.InfoInput.addDataProperty(obj, function (data, headers) {
           deferred.resolve(data)
         }, function (err) {
           deferred.reject(err)
@@ -410,6 +421,15 @@
       self.patControl = function (obj) {
         var deferred = $q.defer()
         Data.LifeAdivce.patControl(obj, function (data, headers) {
+          deferred.resolve(data)
+        }, function (err) {
+          deferred.reject(err)
+        })
+        return deferred.promise
+      }
+      self.habitRec = function (obj) {
+        var deferred = $q.defer()
+        Data.LifeAdivce.habitRec(obj, function (data, headers) {
           deferred.resolve(data)
         }, function (err) {
           deferred.reject(err)

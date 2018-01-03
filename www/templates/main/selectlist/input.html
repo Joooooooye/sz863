@@ -1,50 +1,55 @@
 <div class="row" style="margin-top: 40px">
 	<div class="col-md-2"></div>
-
-	<form name="patForm" nonvalidate class="col-md-8">
-		<div class="form-group">
-                <label>姓名</label>
-                <input type="text" class="form-control"  placeholder="请输入姓名" ng-model="pat.name" required>
-            </div>
-
+    <div class="col-md-8">
+        <form name="patForm" nonvalidate >
             <div class="form-group">
-                <label> 年龄 </label> 
-                <input type="number" class="form-control"  placeholder="请输入年龄" ng-model="pat.age" required>
-            </div>
-
-            
-            
-            <div class="form-group">
-                <label for="name">性别</label>
-                <select class="form-control" ng-model="pat.gender">
-                    <option value="male">男</option>
-                    <option value="female">女</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>ID</label> 
-                <input type="text" class="form-control"  placeholder="请输入ID" ng-model="pat.id" required>
-            </div>
-            
-            <p> {{logStatus}} </p>
-
-            <div style="text-align: center;margin-top: 30px" class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <input type="file" id="inputfile" ng-model="pat.file">
-                    </div>
+                    <label>姓名</label>
+                    <input type="text" class="form-control"  placeholder="请输入姓名" ng-model="pat.name" required>
                 </div>
 
-                <div class="col-md-6">
-                    <button class="btn btn-primary" type="submit"  ng-disabled="!(patForm.$valid)" ng-click="createPat(pat)">创建患者</button>
-                    
+                <div class="form-group">
+                    <label> 年龄 </label> 
+                    <input type="number" class="form-control"  placeholder="请输入年龄" ng-model="pat.age" required>
+                </div>
+
+                
+                
+                <div class="form-group">
+                    <label for="name">性别</label>
+                    <select class="form-control" ng-model="pat.gender">
+                        <option value="Male">男</option>
+                        <option value="Female">女</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>ID</label> 
+                    <input type="text" class="form-control"  placeholder="请输入ID" ng-model="pat.id" required>
                 </div>
                 
+                
 
+        </form>
+        <p> {{logStatus}} </p>
 
+        <div style="margin-top: 30px" class="row">
+            
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input type="file" id="inputfile">
+                    <button class="btn btn-success" style="margin-top: 10px" ng-click="readFile()">导入</button>
+                </div>
             </div>
 
-	</form>
+            <div class="col-md-6">
+                <button class="btn btn-primary" style="float: right;margin-top: 30px" type="submit"  ng-disabled="!(patForm.$valid)" ng-click="createPat(pat)">创建患者</button>
+                
+            </div>
+            
+
+
+        </div>
+    </div>
+	
 
 	<div class="col-md-2"></div>
 </div>
