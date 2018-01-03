@@ -100,29 +100,208 @@
       }
     ])
 
-    .controller('inputCtrl', ['$scope', 'Storage', '$state',
-      function ($scope, Storage, $state) {
+    .controller('inputCtrl', ['$scope', 'Storage', '$state', 'InfoInput', '$q',
+      function ($scope, Storage, $state, InfoInput, $q) {
         $scope.logStatus = ''
         $scope.pat = {}
-        $scope.pat.gender = 'male'
+        $scope.pat.gender = 'Male'
+
+        $scope.readFile = function () {
+          if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
+            $scope.logStatus = 'The File APIs are not fully supported in this browser.'
+            return
+          }
+          input = document.getElementById('inputfile')
+          if (!input) {
+            $scope.logStatus = "Um, couldn't find the fileinput element."
+          } else if (!input.files) {
+            $scope.logStatus = "This browser doesn't seem to support the `files` property of file inputs."
+          } else if (!input.files[0]) {
+            $scope.logStatus = 'Please select a file'
+          } else {
+            file = input.files[0]
+            fr = new FileReader()
+            fr.onload = function () {
+              // Storage.set('tempInfo', fr.result)
+              console.log(fr.result)
+              var info = JSON.parse(fr.result)
+              $scope.pat = info.basic
+            }
+            fr.readAsText(file)
+          }
+        }
+
         $scope.createPat = function (patient) {
-          $state.go('main.selectlist.create')
+          if (patient.age > 0) {
+            InfoInput.createPat({guid: patient.id, time: new Date(), pid: patient.name}).then(function (data) {
+              var age = InfoInput.addDataProperty({guid: patient.id, property: ['P_Age'], value: [String(Math.floor(patient.age))], type: ['1']})
+              var gender = InfoInput.addPatProperty({guid: patient.id, property: ['P_hasPD_B_Sex'], value: [patient.gender]})
+              $q.all([age, gender]).then(function (res) {
+                console.log(res)
+                if (res[0].flag === 1 && res[1].flag === 1) {
+                  $scope.logStatus = '创建成功'
+                  Storage.rm('PatientInfo')
+                  Storage.set('currentPatient', patient.id)
+                  $state.go('main.selectlist.create')
+                } else {
+                  $scope.logStatus = '出现错误，请重新创建。'
+                }
+              })
+              //
+            })
+          } else {
+            $scope.logStatus = '请输入正确的年龄'
+          }
         }
       }
     ])
 
-    .controller('createCtrl', ['$scope', 'Storage', 'Data', '$state',
-      function ($scope, Storage, Data, $state) {
+    .controller('createCtrl', ['$scope', 'Storage', 'Data', '$state', 'InfoInput', '$q', 'riskToONT',
+      function ($scope, Storage, Data, $state, InfoInput, $q, riskToONT) {
         $scope.inputPage = 1
         $scope.previous = false
         $scope.buttonText = '下一步'
-        $scope.next = function () {
-          if ($scope.inputPage == 3) {
+        $scope.pat = {}
+        $scope.multi = {
+          multiphysical: {},
+          multihaits: {},
+          multiendocrines: {},
+          multicardios: {},
+          multikidneys: {},
+          multibloods: {},
+          multihearts: {},
+          multibreathes: {},
+          multibrains: {},
+          multiothers: {},
+          multiallergy: {}
+
+        }
+        $scope.next = function (pat, multi) {
+          console.log(multi)
+
+          var id = Storage.get('currentPatient')
+          if ($scope.inputPage == 4) {
             // 要把新的患者写进Storage里
-            $state.go('main.monitors.inspection')
+            // debugger
+            var dataList = {
+              property: [],
+              value: [],
+              type: []
+            }
+            var objList = {
+              property: [],
+              value: []
+            }
+            if (pat.height && pat.weight != 0) {
+              dataList.property.push('P_BMI')
+              dataList.value.push(Math.round(pat.weight / Math.pow(pat.height, 2)))
+              dataList.type.push('1')
+            }
+            if (pat.Hpressure) {
+              dataList.property.push('P_Systolic')
+              dataList.value.push(Math.round(pat.Hpressure))
+              dataList.type.push('1')
+            }
+            if (pat.Lpressure) {
+              dataList.property.push('P_Diastolic')
+              dataList.value.push(Math.round(pat.Lpressure))
+              dataList.type.push('1')
+            }
+            if (pat.sugar) {
+              dataList.property.push('P_GLU')
+              dataList.value.push(pat.sugar)
+              dataList.type.push('2')
+            }
+            if (pat.sugar2h) {
+              dataList.property.push('P_GLU2h')
+              dataList.value.push(pat.sugar2h)
+              dataList.type.push('2')
+            }
+            if (pat.sProtein) {
+              dataList.property.push('P_HbA1c')
+              dataList.value.push(pat.sProtein)
+              dataList.type.push('2')
+            }
+            if (pat.HPL) {
+              dataList.property.push('P_HDLC')
+              dataList.value.push(pat.HPL)
+              dataList.type.push('2')
+            }
+            if (pat.LPL) {
+              dataList.property.push('P_LDLC')
+              dataList.value.push(pat.LPL)
+              dataList.type.push('2')
+            }
+            if (pat.cholesterol) {
+              dataList.property.push('P_TC')
+              dataList.value.push(pat.cholesterol)
+              dataList.type.push('2')
+            }
+            if (pat.Triglycerides) {
+              dataList.property.push('P_TG')
+              dataList.value.push(pat.Triglycerides)
+              dataList.type.push('2')
+            }
+            if (pat.urineRatio) {
+              dataList.property.push('P_ACR')
+              dataList.value.push(pat.urineRatio)
+              dataList.type.push('2')
+            }
+            if (pat.ecr) {
+              dataList.property.push('P_UAE')
+              dataList.value.push(pat.ecr)
+              dataList.type.push('2')
+            }
+            if (pat.Homocysteine) {
+              dataList.property.push('P_Hcy')
+              dataList.value.push(Math.round(pat.Homocysteine))
+              dataList.type.push('1')
+            }
+            if (pat.phosphokinase) {
+              dataList.property.push('P_CPK')
+              dataList.value.push(pat.phosphokinase)
+              dataList.type.push('2')
+            }
+            if (pat.aminotransferase) {
+              dataList.property.push('P_ALT')
+              dataList.value.push(Math.round(pat.aminotransferase))
+              dataList.type.push('1')
+            }
+            if (pat.strokeHour) {
+              dataList.property.push('P_StrokeHour')
+              dataList.value.push(pat.strokeHour)
+              dataList.type.push('2')
+            }
+            var addData = InfoInput.addDataProperty({guid: id, value: dataList.value, property: dataList.property, type: dataList.type})
+
+            for (outkey in multi) {
+              for (inkey in multi[outkey]) {
+                if (multi[outkey][inkey] != '') {
+                  objList.property.push(multi[outkey][inkey])
+                  objList.value.push(inkey)
+                }
+              }
+            }
+            if (pat.exercise && pat.exercise < 80) {
+              objList.property.push('P_hasBehavior_Exercise')
+              objList.value.push('PhysicalInactivity')
+            }
+            var addObj = InfoInput.addPatProperty({guid: id, value: objList.value, property: objList.property})
+            $q.all([addData, addObj]).then(function (res) {
+              if (res[0].flag == 1 && res[1].flag == 1) {
+                InfoInput.PatientInfo({guid: id}).then(function (data) {
+                  Storage.set('PatientInfo', JSON.stringify(data))
+                  riskToONT.normalRisk(id)
+                  riskToONT.stateRisk(id)
+                  $state.go('main.monitors.inspection')
+                })
+              } else {
+                $scope.buttonText = '再次提交'
+              }
+            })
           } else {
             $scope.inputPage ++
-            $scope.buttonText = $scope.inputPage == 3 ? '完成了' : '下一步'
+            $scope.buttonText = $scope.inputPage == 4 ? '完成了' : '下一步'
           }
           $scope.previous = true
         }
@@ -131,242 +310,518 @@
           if ($scope.inputPage == 1) {
             $scope.previous = false
           }
+          $scope.buttonText = $scope.inputPage == 4 ? '完成了' : '下一步'
         }
         $scope.phys = [
           {
             name: '多饮',
-            value: 'overdrunk'
+            property: 'P_hasGeneralBodyStateFinding',
+            value: 'Polydipsia'
           },
           {
             name: '多食',
-            value: 'overdine'
+            property: 'P_hasGeneralBodyStateFinding',
+            value: 'Polyphagia'
           },
           {
             name: '多尿',
-            value: 'overpee'
+            property: 'P_hasGeneralBodyStateFinding',
+            value: 'Polyuria'
           },
           {
             name: '呕吐',
-            value: 'vommit'
+            property: 'P_hasGeneralBodyStateFinding',
+            value: 'Vomiting'
           },
           {
             name: '咳嗽',
-            value: 'stress'
+            property: 'P_hasGeneralBodyStateFinding',
+
+            value: 'Cough'
           },
           {
             name: '头痛',
-            value: 'diabets'
+            property: 'P_hasGeneralBodyStateFinding',
+            value: 'Headache'
           },
           {
             name: '呼吸困难',
-            value: 'breathe'
+            property: 'P_hasGeneralBodyStateFinding',
+            value: 'Dyspnea'
           },
           {
             name: '惊厥',
-            value: 'thrill'
+            property: 'P_hasGeneralBodyStateFinding',
+            value: 'Convulsion'
           },
           {
             name: '意识障碍',
-            value: 'conscious'
+            property: 'P_hasGeneralBodyStateFinding',
+            value: 'DisturbanceOfConsciousness'
+          },
+          {
+            name: '起疹',
+            property: 'P_hasGeneralBodyStateFinding',
+            value: 'Herpes'
           },
           {
             name: '疱疹',
-            value: 'herpis'
+            property: 'P_hasGeneralBodyStateFinding',
+            value: 'Rash'
+          },
+          {
+            name: '丘疹',
+            property: 'P_hasGeneralBodyStateFinding',
+            value: 'Papule'
           },
           {
             name: '乏力',
-            value: 'fatigue'
+            property: 'P_hasGeneralBodyStateFinding',
+            value: 'Fatigue'
           },
           {
             name: '发热',
-            value: 'toothy'
+            property: 'P_hasGeneralBodyStateFinding',
+            value: 'Fever'
+          },
+          {
+            name: '高热',
+            property: 'P_hasGeneralBodyStateFinding',
+            value: 'SevereFever'
           },
           {
             name: '口齿不清',
-            value: 'hypertension'
+            property: 'P_hasGeneralBodyStateFinding',
+            value: 'Inarticulacy'
           },
           {
             name: '肥胖',
-            value: 'obesity'
+            property: 'P_hasGeneralBodyStateFinding',
+            value: 'Overweight'
           },
           {
             name: '蛋白尿',
-            value: 'Proteinuria'
+            property: 'P_hasGeneralBodyStateFinding',
+            value: 'Albuminuria'
           },
           {
             name: '吞咽困难',
-            value: 'swallow'
+            property: 'P_hasGeneralBodyStateFinding',
+            value: 'Dysphagia'
+          },
+          {
+            name: '发绀',
+            property: 'P_hasGeneralBodyStateFinding',
+            value: 'Cyanosis'
+          },
+          {
+            name: '口角歪斜',
+            property: 'P_hasGeneralBodyStateFinding',
+            value: 'DistortionOfCommissure'
+          },
+          {
+            name: '血脂紊乱',
+            property: 'P_hasGeneralBodyStateFinding',
+            value: 'Dyslipidemia'
+          },
+          {
+            name: '面部麻木',
+            property: 'P_hasGeneralBodyStateFinding',
+            value: 'FacialNumbness'
+          },
+          {
+            name: '肢体麻木',
+            property: 'P_hasGeneralBodyStateFinding',
+            value: 'Paraesthesia'
+          },
+          {
+            name: '突发肢体麻木',
+            property: 'P_hasGeneralBodyStateFindingAcu',
+            value: 'Paraesthesia'
+          },
+          {
+            name: '突发口齿不清',
+            property: 'P_hasGeneralBodyStateFindingAcu',
+            value: 'Inarticulacy'
+          },
+          {
+            name: '突发惊厥',
+            property: 'P_hasGeneralBodyStateFindingAcu',
+            value: 'Convulsion'
+          },
+          {
+            name: '突发面部麻木',
+            property: 'P_hasGeneralBodyStateFindingAcu',
+            value: 'FacialNumbness'
+          },
+          {
+            name: '突发严重头痛',
+            property: 'P_hasGeneralBodyStateFindingAcu',
+            value: 'SevereHeadache'
+          },
+          {
+            name: '突发意识障碍',
+            property: 'P_hasGeneralBodyStateFindingAcu',
+            value: 'DisturbanceOfConsciousness'
+          }
+
+        ]
+        $scope.drugs = [
+          {
+            name: '卡托普利',
+            property: 'P_hasMedicalAllergy',
+            value: 'Captopril'
+          },
+          {
+            name: '依那普利',
+            property: 'P_hasMedicalAllergy',
+            value: 'Enalapril'
+          },
+          {
+            name: '赖诺普利',
+            property: 'P_hasMedicalAllergy',
+            value: 'Lisinopril'
+          },
+          {
+            name: '氯吡格雷',
+            property: 'P_hasMedicalAllergy',
+            value: 'Clopidogrel'
+          },
+          {
+            name: '氯沙坦',
+            property: 'P_hasMedicalAllergy',
+            value: 'Losartan'
+          },
+          {
+            name: '缬沙坦',
+            property: 'P_hasMedicalAllergy',
+            value: 'Valsartan'
+          },
+          {
+            name: '二甲双胍',
+            property: 'P_hasMedicalAllergy',
+            value: 'Metformin'
+          },
+          {
+            name: '硝苯地平',
+            property: 'P_hasMedicalAllergy',
+            value: 'Nifedipine'
+          },
+          {
+            name: '尼卡地平',
+            property: 'P_hasMedicalAllergy',
+            value: 'Nicardipine'
+          },
+          {
+            name: '地高辛',
+            property: 'P_hasMedicalAllergy',
+            value: 'Digoxin'
+          },
+          {
+            name: '华法林',
+            property: 'P_hasMedicalAllergy',
+            value: 'Warfarin'
+          },
+          {
+            name: '阿司匹林',
+            property: 'P_hasMedicalAllergy',
+            value: 'Aspirin'
+          },
+          {
+            name: '沙格列汀',
+            property: 'P_hasMedicalAllergy',
+            value: 'Saxagliptin'
+          },
+          {
+            name: '西格列汀',
+            property: 'P_hasMedicalAllergy',
+            value: 'Sitagliptin'
+          },
+          {
+            name: '维格列汀',
+            property: 'P_hasMedicalAllergy',
+            value: 'Vildagliptin'
+          },
+          {
+            name: '非诺贝特',
+            property: 'P_hasMedicalAllergy',
+            value: 'Fenofibrate'
+          },
+          {
+            name: '苯扎贝特',
+            property: 'P_hasMedicalAllergy',
+            value: 'Benzafibrate'
+          },
+          {
+            name: '那格列奈',
+            property: 'P_hasMedicalAllergy',
+            value: 'Nateglinide'
+          },
+          {
+            name: '瑞格列奈',
+            property: 'P_hasMedicalAllergy',
+            value: 'Repaglinide'
+          },
+          {
+            name: '双嘧哒莫',
+            property: 'P_hasMedicalAllergy',
+            value: 'Dipyridamole'
+          },
+          {
+            name: '氟伐他汀',
+            property: 'P_hasMedicalAllergy',
+            value: 'Fluvastatin'
+          },
+          {
+            name: '洛伐他汀',
+            property: 'P_hasMedicalAllergy',
+            value: 'Lovastatin'
+          },
+          {
+            name: '辛伐他汀',
+            property: 'P_hasMedicalAllergy',
+            value: 'Simvastatin'
+          },
+          {
+            name: '格列本脲',
+            property: 'P_hasMedicalAllergy',
+            value: 'Glyburide'
+          },
+          {
+            name: '吡格列酮',
+            property: 'P_hasMedicalAllergy',
+            value: 'Pioglitazone'
+          },
+          {
+            name: '罗格列酮',
+            property: 'P_hasMedicalAllergy',
+            value: 'Rosiglitazone'
+          },
+          {
+            name: '阿卡波糖',
+            property: 'P_hasMedicalAllergy',
+            value: 'Acarbose'
+          },
+          {
+            name: '美托洛尔',
+            property: 'P_hasMedicalAllergy',
+            value: 'Metoprolol'
+          },
+          {
+            name: '普萘洛尔',
+            property: 'P_hasMedicalAllergy',
+            value: 'Propranolol'
           }
 
         ]
         $scope.habits = [
           {
             name: '吸烟',
-            value: 'smoke'
+            property: 'P_hasBehavior_Smoke',
+            value: 'Smoke'
           },
           {
-            name: '饮酒',
-            value: 'drink'
+            name: '过量饮酒',
+            property: 'P_hasBehavior_Drink',
+            value: 'OverDrink'
           },
           {
             name: '高盐饮食',
-            value: 'salt'
+            property: 'P_hasBehavior_Diet',
+            value: 'HighSaltDiet'
           },
           {
             name: '高脂饮食',
-            value: 'oil'
+            property: 'P_hasBehavior_Diet',
+            value: 'HighFatDiet'
           },
           {
             name: '精神压力大',
-            value: 'stress'
+            property: 'P_hasBehavior_Mind',
+            value: 'Tension_LongDuration'
           },
           {
             name: '近亲糖尿病史',
-            value: 'diabets'
+            property: 'P_hasPD_B_HD',
+            value: 'RelativeDiabetes_FirstDegree'
           },
           {
             name: '家族心血管病史',
-            value: 'heart'
+            property: 'P_hasPD_B_HD',
+            value: 'RelativeCVD'
           },
           {
             name: '家族高血压病史',
-            value: 'hypertension'
+            property: 'P_hasPD_B_HD',
+            value: 'RelativeHypertension'
+          },
+          {
+            name: '流感高发季',
+            property: 'P_hasGeneralBodyStateFinding',
+            value: 'InfluenzaSeason'
           }
 
         ]
         $scope.diags = {
           endocrine: [
             {
-              name: '1型糖尿病',
-              value: 'dm1'
-            },
-            {
               name: '2型糖尿病',
-              value: 'dm2'
+              property: 'P_hasDisease',
+              value: 'Type2Diabetes'
             },
             {
-              name: '糖尿病',
-              value: 'dm'
-            },
-            {
-              name: '妊娠型糖尿病',
-              value: 'Gestational'
+              name: '多囊卵巢综合症',
+              property: 'P_hasDisease',
+              value: 'PCOS'
             }
+
           ],
           heart: [
             {
               name: '冠心病',
-              value: 'chd'
+              property: 'P_hasDisease',
+              value: 'CoronaryHeartDisease'
             },
             {
               name: '心功能不全',
-              value: 'hf'
+              property: 'P_hasDisease',
+              value: 'CardiacInsufficiency'
             },
             {
               name: '心房颤动',
-              value: 'af'
+              property: 'P_hasDisease',
+              value: 'AtrialFibrillation'
             }
           ],
           cardio: [
             {
-              name: '心血管疾病史',
-              value: 'heartHistory'
+              name: '心血管疾病',
+              property: 'P_hasDisease',
+              value: 'CardiovasucularDisease'
             },
             {
               name: '高血压',
-              value: 'hypertension'
+              property: 'P_hasDisease',
+              value: 'Hypertension'
+            },
+            {
+              name: '颈动脉狭窄',
+              property: 'P_hasDisease',
+              value: 'CarotidArteryStenosis'
+            },
+            {
+              name: '重度颈动脉狭窄',
+              property: 'P_hasDisease',
+              value: 'CarotidArteryStenosis_Severealve'
+            },
+            {
+              name: '主动脉瓣狭窄',
+              property: 'P_hasDisease',
+              value: 'Aortostenosis'
+            },
+            {
+              name: '深层静脉血栓',
+              property: 'P_hasDisease',
+              value: 'DeepVeinThrombosis'
             }
 
           ],
           breathe: [
             {
               name: '甲型流感',
-              value: 'flu1'
+              property: 'P_hasDisease',
+              value: 'InfluenzaTypeA'
             },
             {
               name: '乙型流感',
-              value: 'flu2'
-            },
-            {
-              name: '丙型流感',
-              value: 'flu3'
-            },
-            {
-              name: '流感',
-              value: 'flu'
+              property: 'P_hasDisease',
+              value: 'InfluenzaTypeB'
             }
           ],
           kidney: [
             {
               name: '糖尿病肾病',
-              value: 'dmKID'
+              property: 'P_hasDisease',
+              value: 'DiabeticNephropathy'
             },
             {
               name: '肾功能不全',
-              value: 'KF'
+              property: 'P_hasDisease',
+              value: 'ReducedKidneyFunction'
             },
             {
               name: '慢性肾病',
+              property: 'P_hasDisease',
               value: 'CKD'
             }
           ],
           brain: [
-            {
-              name: '脑卒中',
-              value: 'brain1'
-            },
+
             {
               name: '缺血性脑卒中',
-              value: 'brain2'
+              property: 'P_hasDisease',
+              value: 'CerebralIschemicStroke'
+            },
+            {
+              name: '缺血性脑卒中二级预防',
+              property: 'P_hasPrevention',
+              value: 'CerebralIschemicStroke'
             },
             {
               name: '短暂性脑缺血发作',
-              value: 'brain3'
+              property: 'P_hasDisease',
+              value: 'TransientIschemicAttack'
             },
             {
               name: '蛛网膜下腔出血',
-              value: 'brain4'
+              property: 'P_hasDisease',
+              value: 'SubarachnoidHemorrhage'
             }
           ],
           blood: [
             {
               name: '高脂血症',
-              value: 'blood1'
+              property: 'P_hasDisease',
+              value: 'Hyperlipidemia'
             },
             {
               name: '高胆固醇血症',
-              value: 'blood2'
+              property: 'P_hasDisease',
+              value: 'hypercholesteremia'
             },
             {
               name: '高纤维蛋白原血症',
-              value: 'blood3'
+              property: 'P_hasDisease',
+              value: 'Hyperfibrinogenemia'
             },
             {
               name: '高同型半胱氨酸血症',
-              value: 'blood4'
+              property: 'P_hasDisease',
+              value: 'Hyperhomocystinemia'
             }
           ],
           other: [
             {
               name: '糖尿病视网膜病变',
-              value: 'dmEye'
+              property: 'P_hasDisease',
+              value: 'DiabeticRetinopathy'
             },
             {
               name: '肝功能不全',
-              value: 'LiverF'
+              property: 'P_hasDisease',
+              value: 'ReducedLiverFunction'
             },
             {
               name: '手足口病',
-              value: 'HFM'
+              property: 'P_hasDisease',
+              value: 'HFMD'
             },
             {
               name: '下肢动脉粥样硬化病变',
-              value: 'LB'
-            },
-            {
-              name: '重度颈动脉狭窄',
-              value: 'valve'
+              property: 'P_hasDisease',
+              value: 'LowerExtremityAtheroscleroticDisease'
             }
+
           ]
         }
       }
@@ -507,15 +962,20 @@
     ])
     .controller('lifeCtrl', ['$scope', 'Storage', 'LifeAdivce', '$state',
       function ($scope, Storage, LifeAdivce, $state) {
-        LifeAdivce.dietRec({ guid: Storage.get('currentPatient') }).then(function (data) {
+        var patId = Storage.get('currentPatient')
+        LifeAdivce.dietRec({ guid: patId }).then(function (data) {
           $scope.dietrec = data
         })
-        LifeAdivce.exerciseRec({ guid: Storage.get('currentPatient') }).then(function (data) {
+        LifeAdivce.exerciseRec({ guid: patId }).then(function (data) {
           $scope.exerreclist = data.exerinfo
         })
-        LifeAdivce.controlGoal({ guid: Storage.get('currentPatient') }).then(function (data) {
+        LifeAdivce.controlGoal({ guid: patId }).then(function (data) {
           console.log(data)
           $scope.ctrl = data
+        })
+        LifeAdivce.habitRec({ guid: patId }).then(function (data) {
+          console.log(data)
+          $scope.habits = data.habit
         })
       }
     ])
@@ -540,7 +1000,10 @@
           ]
           var results = new Map()
                 // console.log(data)
-          $scope.hellos = [{ score: data.total }]
+          if (data.total != -1) {
+            $scope.hellos = [{ score: data.total }]
+          }
+
                 // console.log($scope.totalScore)
           data.score.forEach(function (value, index) {
             if (value != -1) {
@@ -562,20 +1025,18 @@
       }
 
     ])
-    .controller('selectCtrl', ['$scope', 'Storage', 'Data', '$state', 'riskToONT', 'InfoInput', '$timeout',
+    .controller('selectCtrl', ['$scope', 'Storage', 'Data', '$state', 'riskToONT', 'InfoInput',
 
-      function ($scope, Storage, Data, $state, riskToONT, InfoInput, $timeout) {
+      function ($scope, Storage, Data, $state, riskToONT, InfoInput) {
         var userlist = new Array()
         InfoInput.PatientInfo({ guid: 'P000125' }).then(function (data) {
           data.patientid = 'P000125'
           userlist.push(data)
         })
-        $timeout(
-          InfoInput.PatientInfo({ guid: 'P000121' }).then(function (data) {
-            data.patientid = 'P000121'
-            userlist.push(data)
-          }),
-          500)
+        InfoInput.PatientInfo({ guid: 'P000121' }).then(function (data) {
+          data.patientid = 'P000121'
+          userlist.push(data)
+        })
 
         $scope.userlist = userlist
 
