@@ -9,16 +9,21 @@
                 <div  class="gridTex" ng-repeat="DRec in dietrec.DRecName" style="margin-top: 10px;margin-left:10px">
                     {{DRec}}
                 </div>
+                <p ng-if="!dietrec.DRecName.length" class="warning">暂无</p>
+
                 <hr>
                 <h5 class="label label-danger" style="font-size: 14px;">不建议补充营养素：</h5>
                 <div  class="gridTex" ng-repeat="DUnRec in dietrec.DUnRecName" style="margin-top: 10px;margin-left:10px">
                     {{DUnRec}}
                 </div>
+                <p ng-if="!dietrec.DUnRecName.length" class="warning">暂无</p>
+
                 <hr>
                 <h5 class="label label-warning" style="font-size: 14px;">需控制摄入的营养素：</h5>
                 <div  class="gridTex" ng-repeat="DCtrl in dietrec.DCtrlName" style="margin-top: 10px;margin-left:10px">
                     {{DCtrl.ctrl}}，摄入上限：{{DCtrl.value}} {{DCtrl.unit}}
                 </div>
+                <p ng-if="!dietrec.DCtrlName.length" class="warning">暂无</p>
                 <hr>
                 
             </div>
@@ -38,6 +43,8 @@
                         <div ng-if="exerrec.exertime" style="margin-top: 10px;margin-left:10px"><b>建议运动时间：</b><br>{{exerrec.exertime}} {{exerrec.exerunit}}</div>
                     </div>
                 </div>
+                <p ng-if="!exerreclist.length" class="warning">暂无运动建议</p>
+                
             </div>
         </div>
     </div>
@@ -74,7 +81,10 @@
             <div class="panel-body">
                 <!-- <div ng-repeat="ctrl in ctrlgoal"> -->
                 <div class="gridTex" ng-repeat="habit in habits">
-                    <div ng-if="habit.habitdetail!=-1" style="margin-top: 10px;margin-left:10px"><b>{{habit.habitname}}：</b><br>{{habit.habitdetail}}</div>
+                    <div style="margin-top: 10px;margin-left:10px">
+                        <b>{{habit.habitname}}</b>
+                        <p ng-if="habit.habitdetail!=-1" style="text-indent: 2em">{{habit.habitdetail}}</p>
+                </div>
                 </div>
                 <!-- </div> -->
             </div>

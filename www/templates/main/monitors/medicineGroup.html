@@ -9,23 +9,29 @@
                     <button type="button" class="btn btn-link" ng-click="medicine('rec',$index)" style="color: #5cb85c"> {{rec}}
                     </button>
                 </div>
+                <p ng-if="!group.MedRec.length" class="warning">暂无建议用药方案</p>
+
                 
             </div>
             <div class="col-md-4" style="text-align: center;">
                 <h5 class="label label-danger" style="font-size: 12px;margin-top: 10px;display: inline-block;text-align: center;">不建议用药方案</h5> 
                 <div ng-repeat="unrec in group.MedUnRec" style="text-align: left;">
-                    <button type="button" class="btn btn-link" ng-click="medicine('unrec',$index)" style="color: #f0ad4e"> {{unrec}}
+                    <button type="button" class="btn btn-link" ng-click="medicine('unrec',$index)" style="color: #d9534f"> {{unrec}}
                     </button>
                 </div>
+                <p ng-if="!group.MedUnRec.length" class="warning">暂无不建议用药方案</p>
+
                
                
             </div>
             <div class="col-md-4" style="text-align: center;">
                 <h5 class="label label-warning" style="font-size: 12px;margin-top: 10px;display: inline-block;text-align: center;">警惕用药方案</h5> 
                 <div ng-repeat="caution in group.MedCauRec" style="text-align: left;">
-                    <button type="button" class="btn btn-link" ng-click="medicine('caution',$index)" style="color: #d9534f"> {{caution}}
+                    <button type="button" class="btn btn-link" ng-click="medicine('caution',$index)" style="color: #f0ad4e"> {{caution}}
                     </button>
                 </div>
+                <p ng-if="!group.MedCauRec.length" class="warning">暂无警惕用药方案</p>
+                
                 
                 
             </div>

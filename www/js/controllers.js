@@ -1,6 +1,6 @@
 ﻿angular.module('controllers', ['ngResource', 'services'])
 
-    .controller('LoginCtrl', ['$scope', '$state', 'Storage', 'Ontology', function ($scope, $state, Storage, Ontology) {
+    .controller('LoginCtrl', ['$scope', '$state', 'Storage', function ($scope, $state, Storage) {
         // 捆绑变量
       $scope.logStatus = '   '
 
@@ -49,10 +49,7 @@
 
                 // currentUser记录当前登录用户以及用户角色
           if (login.role === 'doctor') {
-            Ontology.readONT().then(function (data) {
-                        // 本体读入
-              $state.go('main.selectlist.select')
-            })
+            $state.go('main.selectlist.select')
           } else {
             $state.go('fishbone')
           }
@@ -127,13 +124,21 @@
           } else {
             file = input.files[0]
             fr = new FileReader()
+
+            fr.readAsText(file)
             fr.onload = function () {
               Storage.set('tempInfo', fr.result)
-              // console.log(fr.result)
               var info = JSON.parse(fr.result)
-              $scope.pat = info.basic
+              $scope.$apply(function () {
+                $scope.pat = info.basic
+              })
             }
-            fr.readAsText(file)
+            fr.onloadstart = function () {
+              $('body').LoadingOverlay('show')
+            }
+            fr.onloadend = function () {
+              $('body').LoadingOverlay('hide')
+            }
           }
         }
 
@@ -170,6 +175,7 @@
         var file = Storage.get('tempInfo')
         if (file) {
           file = JSON.parse(file)
+          console.log(file)
           $scope.pat = file.patBasic
           $scope.multi = file.multi
           Storage.rm('tempInfo')
@@ -193,11 +199,10 @@
         }
 
         $scope.next = function (pat, multi) {
-          console.log(multi)
-
           var id = Storage.get('currentPatient')
           if ($scope.inputPage == 4) {
             // 要把新的患者写进Storage里
+            console.log(multi)
             // debugger
             var dataList = {
               property: [],
@@ -309,7 +314,7 @@
                   Storage.set('PatientInfo', JSON.stringify(data))
                   riskToONT.normalRisk(id)
                   riskToONT.stateRisk(id)
-                  $state.go('main.monitors.inspection')
+                  $state.go('main.monitors.diagnosis')
                 })
               } else {
                 $scope.buttonText = '再次提交'
@@ -378,12 +383,12 @@
           {
             name: '起疹',
             property: 'P_hasGeneralBodyStateFinding',
-            value: 'Herpes'
+            value: 'Rash'
           },
           {
             name: '疱疹',
             property: 'P_hasGeneralBodyStateFinding',
-            value: 'Rash'
+            value: 'Herpes'
           },
           {
             name: '丘疹',
@@ -1133,13 +1138,12 @@
         InfoInput.PatientInfo({ guid: 'P000125' }).then(function (data) {
           data.patientid = 'P000125'
           userlist.push(data)
+          InfoInput.PatientInfo({ guid: 'P000121' }).then(function (data) {
+            data.patientid = 'P000121'
+            userlist.push(data)
+            $scope.userlist = userlist
+          })
         })
-        InfoInput.PatientInfo({ guid: 'P000121' }).then(function (data) {
-          data.patientid = 'P000121'
-          userlist.push(data)
-        })
-
-        $scope.userlist = userlist
 
         $scope.toUserDetail = function (pat) {
           Storage.set('currentPatient', pat.patientid)
@@ -1153,14 +1157,20 @@
       }
     ])
 
-    .controller('selectlistCtrl', ['$scope', 'Storage', 'Data', '$state',
+    .controller('selectlistCtrl', ['$scope', 'Storage', 'Data', '$state', 'Ontology',
 
-      function ($scope, Storage, Data, $state) {
+      function ($scope, Storage, Data, $state, Ontology) {
         $scope.createPats = function () {
-          $state.go('main.selectlist.input')
+          Ontology.readONT().then(function (data) {
+                        // 本体读入
+            $state.go('main.selectlist.input')
+          })
         }
         $scope.currentPats = function () {
-          $state.go('main.selectlist.select')
+          Ontology.readONT().then(function (data) {
+                        // 本体读入
+            $state.go('main.selectlist.select')
+          })
         }
       }
     ])
