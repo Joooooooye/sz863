@@ -109,7 +109,7 @@ color: #767676;
 .fishBone .item.top .content ul li .name{}
 .fishBone .item.top .content ul li .text{}
 /**prev next*/
-.fishBone .prev {
+/*.fishBone .prev {
 	position: absolute;
 	top: 154px;
 	left: 0;
@@ -121,8 +121,8 @@ color: #767676;
 .fishBone .prev:hover{
 cursor: pointer;
 background-position-y: -28px;
-}
-.fishBone .next:hover{
+}*/
+/*.fishBone .next:hover{
 cursor: pointer;
 background-position-y: -28px;
 }
@@ -134,16 +134,16 @@ background-position-y: -28px;
 	width: 20px;
 	height: 40px;
 	background: url(../img/arrow.png) no-repeat -19px 13px;
-}
+}*/
 /**line**/
-.fishBone .line {
+/*.fishBone .line {
 	position: absolute;
 	top: 175px;
 	height: 1px;
 	width: 100%;
 	border-bottom: 2px dashed #7E899D;
 	z-index: -1;
-}
+}*/
 .fishBone .item .line-point {
 	position: absolute;
 	left: 4px;

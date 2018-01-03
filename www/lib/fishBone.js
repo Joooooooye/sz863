@@ -141,7 +141,7 @@ $.fn.fishBone = function (data) {
 
       var ul = $('<ul></ul>')
             // 遍历封装属性
-            // 封装审理时间和案号
+            // 封装部门和等级
       if (itemclass == 'top') {
         $.each(this, function (name, value) {
           if (name == '等级') {
@@ -164,11 +164,11 @@ $.fn.fishBone = function (data) {
             // 封装其他属性
       $.each(this, function (name, value) {
         if (name != '等级' && name != '部门') {
-          var li = $('<li>' + name + '：' + value + '</li>').css('border-left', '1px solid ' + color)
+          var li = $('<li class="step">' + name + '：' + value + '</li>').css('border-left', '1px solid ' + color)
           li.appendTo(ul)
         }
       })
-          // 封装审理时间和案号
+          // 封装部门和等级
       if (itemclass == 'bottom') {
         $.each(this, function (name, value) {
           if (name == '部门') {
@@ -193,7 +193,7 @@ $.fn.fishBone = function (data) {
       var point = $("<li class='line-last line-point'></li>").css('background-position', '0px ' + linePointY)
       point.appendTo(ul)
 
-            // 生成一个item（一个完整的案件）
+            // 生成一个item（一个完整的部门措施）
       var li_item = $("<li class='item'></li>")
       var content = $("<div class='content'></div>")
       ul.appendTo(content)
@@ -208,6 +208,7 @@ $.fn.fishBone = function (data) {
     var line = $("<div class='line'/>")
 
     fishBone.append(wrapper).append(prev).append(next).append(line)
+    fishBone.append(wrapper)
     return fishBone
   };
     /** item添加样式，显示在上方或下方 */
