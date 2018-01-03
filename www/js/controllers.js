@@ -1165,35 +1165,49 @@
       }
     ])
 
-    .controller('fishboneCtrl', ['$scope', 'Storage', '$state', '$timeout', function ($scope, Storage, $state, $timeout) {
-      $scope.UserName = Storage.get('currentUser')
-      $scope.Role = Storage.get('currentrole')
-      $scope.logout = function () {
-        $state.go('login')
-        Storage.clear()
-      }
-      $scope.level = '1' // 默认蓝
-      $scope.changelv = function () {
-        if ($scope.level == '1') {
-          $('#fishBone01').fishBone(data_h4)
-          $('#fishBone02').fishBone(data_f4)
-          $('#fishBone03').fishBone(data_b4)
-          query_detail()
-        } else if ($scope.level == '2') {
-          $('#fishBone01').fishBone(data_h3)
-          $('#fishBone02').fishBone(data_f3)
-          $('#fishBone03').fishBone(data_b3)
-          query_detail()
-        } else if ($scope.level == '3') {
-          $('#fishBone01').fishBone(data_h2)
-          $('#fishBone02').fishBone(data_f2)
-          $('#fishBone03').fishBone(data_b2)
-          query_detail()
-        } else if ($scope.level == '4') {
-          $('#fishBone01').fishBone(data_h1)
-          $('#fishBone02').fishBone(data_f1)
-          $('#fishBone03').fishBone(data_b1)
-          query_detail()
+
+    .controller('fishboneCtrl', ['$scope', 'Storage', '$state', '$timeout', function($scope, Storage, $state, $timeout) {
+        $scope.UserName = Storage.get('currentUser')
+        $scope.Role = Storage.get('currentrole')
+        $scope.logout = function() {
+            $state.go('login')
+            Storage.clear()
+        }
+        $scope.level = '1' // 默认蓝
+        $scope.changelv = function() {
+            if ($scope.level == '1') {
+                $('#fishBone01').fishBone(data_h4)
+                $('#fishBone02').fishBone(data_f4)
+                $('#fishBone03').fishBone(data_b4)
+                create_svg(4,1,data_h4);
+                create_svg(4,2,data_f4);
+                create_svg(4,3,data_b4);
+                query_detail()
+            } else if ($scope.level == '2') {
+                $('#fishBone01').fishBone(data_h3)
+                $('#fishBone02').fishBone(data_f3)
+                $('#fishBone03').fishBone(data_b3)
+                create_svg(3,1,data_h3);
+                create_svg(3,2,data_f3);
+                create_svg(3,3,data_b3);
+                query_detail()
+            } else if ($scope.level == '3') {
+                $('#fishBone01').fishBone(data_h2)
+                $('#fishBone02').fishBone(data_f2)
+                $('#fishBone03').fishBone(data_b2)
+                create_svg(2,1,data_h2);
+                create_svg(2,2,data_f2);
+                create_svg(2,3,data_b2);
+                query_detail()
+            } else if ($scope.level == '4') {
+                $('#fishBone01').fishBone(data_h1)
+                $('#fishBone02').fishBone(data_f1)
+                $('#fishBone03').fishBone(data_b1)                
+                create_svg(1,1,data_h1);
+                create_svg(1,2,data_f1);
+                create_svg(1,3,data_b1);
+                query_detail()
+            }
         }
       }
 
@@ -1232,47 +1246,118 @@
                 // $scope.people = ""
                 // $scope.region = ""
                 // $scope.detail = ""
-          var str = event.target.innerText
-          var str_after = str.split('：')[1]
-          for (i = 0; i < data.length; i++) {
-            if (str_after == data[i].step) {
-              $scope.step = data[i].step
-              $scope.people = data[i].people
-              $scope.region = data[i].region
-              if ($scope.people != '' && $scope.region == '') {
-                $scope.region = '无'
-              } else if ($scope.people == '' && $scope.region != '') {
-                $scope.people = '无'
-              }
+
+                var str = event.target.innerText
+                var str_after = str.split("：")[1];
+                for (i = 0; i < data.length; i++) {
+                    if (str_after == data[i].step) {
+                        $scope.step = data[i].step
+                        $scope.people = data[i].people
+                        $scope.region = data[i].region
+                        if ($scope.people != "" && $scope.region == "") {
+                            $scope.detail = "针对人群："+$scope.people 
+                        } else if ($scope.people == "" && $scope.region != "") {
+                            $scope.detail = "针对地区："+$scope.region 
+                        }else if($scope.people != "" && $scope.region != ""){
+                             $scope.detail = "针对人群："+$scope.people +'<br />'+"针对地区："+$scope.region
+                        }
+                    }
+                }
+                var _this = this;
+                $(this).popover({
+              // delay:{ show: 500, hide: 100 },
+                title: '<div style="width:200px;font-size:17px;height:20px">详情</div>',
+                content: '<div style="width:200px;font-size:15px;height:100px">' + $scope.detail + '</div>',
+                html: true
+            });
+                $(this).popover("show");
+                $(this).siblings(".popover").on("mouseleave", function() {
+                    $(_this).popover('hide');
+                });
+                // $timeout(function() {
+                //     $('#step_detail').modal('show');
+                // }, 100);
+                // $timeout(function() {
+                //     $('#step_detail').modal('hide');
+                // }, 2000);
+            }).on("mouseleave", function() {
+                var _this = this;
+                setTimeout(function() {
+                    if (!$(".popover:hover").length) {
+                        $(_this).popover("hide")
+                    }
+                }, 100);
+            })
+        }
+        query_detail()
+        
+
+        var create_svg = function(level, index, data){
+          bd = document.getElementById('fishBone0'+index).getElementsByTagName('ul')[0];
+          var svg = document.createElementNS("http://www.w3.org/2000/svg","svg");
+          svg.setAttribute("class", "d3_map")
+          svg.setAttribute("style", "z-index:1;top:0;position:absolute;left:0;height:350px;width:4000px;visibility:visible")
+
+          bd.appendChild(svg)
+
+          var get_location = function(data,index){
+            var n = 0
+            for(var x in data[index]){
+              n++
             }
+            var lines = n-2
+            var x = index*150 + 15
+            var y = 24*lines + 82
+            if(index%2 !=  0){
+              y = 350 - y
+            }
+            return {'x':x, 'y':y}
           }
 
-                // var _this = this;
-                // $(this).popover("show");
-                // $(this).siblings(".popover").on("mouseleave", function() {
-                //     $(_this).popover('hide');
-                // });
-                // console.log($scope.people)
-          $timeout(function () {
-            $('#step_detail').modal('show')
-          }, 100)
-          $timeout(function () {
-            $('#step_detail').modal('hide')
-          }, 2000)
-        }).on('mouseleave', function () {
-          var _this = this
-          setTimeout(function () {
-            if (!$('.popover:hover').length) {
-              $(_this).popover('hide')
-            }
-          }, 100)
-        })
-            // .popover({
-            //   delay:{ show: 500, hide: 100 },
-            //     title: '<div style="width:200px;font-size:17px;height:20px">详情</div>',
-            //     content: '<div style="width:200px;font-size:15px;height:100px">' + $scope.detail + '</div>',
-            //     html: true
-            // })
-      }
-      query_detail()
+          var p2p = new Array()
+                  
+          p2p_1_1 = [[0,1],[1,2],[1,3],[3,4],[1,5],[3,6],[3,7],[7,2],[1,8],[8,9]]
+          p2p_1_2 = [[0,1],[1,2],[1,3],[1,4],[3,5],[4,6],[4,8],[1,7],[7,8]]
+          p2p_1_3 = [[0,1],[1,2],[1,3],[2,4],[3,5],[4,1],[1,2],[4,6],[5,6]]
+          p2p_2_1 = [[0,1],[1,2],[1,3],[2,4],[3,5],[4,5],[3,6]]
+          p2p_2_2 = [[0,1],[1,2],[2,3],[1,3],[3,4],[3,5],[5,7],[5,6],[4,6]]
+          p2p_2_3 = [[0,1],[0,2],[1,3],[2,4],[2,5],[3,5]]
+          p2p_3_1 = [[0,1],[0,2],[1,4],[2,3],[4,5],[3,6],[5,6]]
+          p2p_3_2 = [[0,1],[0,2],[1,3],[2,4],[4,5]]
+          p2p_3_3 = [[0,1],[0,2],[1,3],[2,4],[4,5],[3,5]]
+          p2p_4_1 = [[0,1],[1,3],[2,5],[4,5],[3,5]]
+          p2p_4_2 = [[0,2],[2,3],[1,4]]
+          p2p_4_3 = [[0,3],[3,4],[2,3],[1,4]]
+
+          p2p_list = [[p2p_1_1,p2p_1_2,p2p_1_3],
+                      [p2p_2_1,p2p_2_2,p2p_2_3],
+                      [p2p_3_1,p2p_3_2,p2p_3_3],
+                      [p2p_4_1,p2p_4_2,p2p_4_3]]
+
+          p2p = p2p_list[level-1][index-1]
+          console.log(p2p)
+
+          $(p2p).each(function(index,content){
+            resource = get_location(data,content[0])
+            target = get_location(data,content[1])
+            x1 = resource.x
+            y1 = resource.y
+            x2 = target.x
+            y2 = target.y
+            var d3_line = document.createElementNS("http://www.w3.org/2000/svg", "line")
+            d3_line.setAttribute('x1',x1)
+            d3_line.setAttribute('x2',x2)
+            d3_line.setAttribute('y1',y1)
+            d3_line.setAttribute('y2',y2)
+            d3_line.setAttribute('style','stroke:#cccccc; stroke-width:4;visibility:visible')
+            d3_line.setAttribute('stroke-dasharray', "10,5")
+           
+            svg.appendChild(d3_line)
+    })
+       
+        }
+        create_svg(4,1,data_h4);
+        create_svg(4,2,data_f4);
+        create_svg(4,3,data_b4); 
     }])
+

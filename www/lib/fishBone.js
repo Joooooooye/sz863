@@ -14,8 +14,8 @@ $.fn.fishBone = function (data) {
     autoPage: true,
     effect: 'left',
     autoPlay: false,
-    scroll: rowcount,
-    vis: rowcount
+    scroll: 11,
+    vis: 11
   })
   jQuery('#fishBone02').slide({
     titCell: '.hd ul',
@@ -23,8 +23,8 @@ $.fn.fishBone = function (data) {
     autoPage: true,
     effect: 'left',
     autoPlay: false,
-    scroll: rowcount,
-    vis: rowcount
+    scroll: 11,
+    vis: 11
   })
   jQuery('#fishBone03').slide({
     titCell: '.hd ul',
@@ -32,8 +32,8 @@ $.fn.fishBone = function (data) {
     autoPage: true,
     effect: 'left',
     autoPlay: false,
-    scroll: rowcount,
-    vis: rowcount
+    scroll: 11,
+    vis: 11
   })
 
     /** 自适应 平均分布 */
@@ -53,7 +53,7 @@ $.fn.fishBone = function (data) {
     }
         // 设置新的宽度使其平均分布
     var item_w_temp = bd_w / rowcount - marginleft
-    item.width(item_w_temp)
+    item.width(150)
     return rowcount
   };
     /** li左边框线颜色 border-left-color 动态获取 */
@@ -127,7 +127,7 @@ $.fn.fishBone = function (data) {
     var fishBone = $("<div class='fishBone'/>")
     var wrapper = $("<div class='wrapper'></div>")
     var bd = $("<div class='bd'></div>")
-    var ul_item = $('<ul/>')
+    var ul_item = $('<ul style="width: 2000px; left: 0px; position: relative; overflow: hidden; padding: 0px; margin: 0px;"/>')
         // 遍历数据
     $(data).each(function (index) {
       var itemclass = itemClass(index)// 显示在轴上方或下方标识 top/bottom
@@ -164,7 +164,7 @@ $.fn.fishBone = function (data) {
             // 封装其他属性
       $.each(this, function (name, value) {
         if (name != '等级' && name != '部门') {
-          var li = $('<li class="step">' + name + '：' + value + '</li>').css('border-left', '1px solid ' + color)
+          var li = $('<li class="step" style="position:relative;z-index:999">' + name + '：' + value + '</li>').css('border-left', '1px solid ' + color)
           li.appendTo(ul)
         }
       })
@@ -202,12 +202,10 @@ $.fn.fishBone = function (data) {
     })
     ul_item.appendTo(bd)
     bd.appendTo(wrapper)
-
     var prev = $("<a class='prev'></a>")
     var next = $("<a class='next'></a>")
     var line = $("<div class='line'/>")
-
-    fishBone.append(wrapper).append(prev).append(next).append(line)
+    fishBone.append(wrapper).append(line)
     fishBone.append(wrapper)
     return fishBone
   };
@@ -216,7 +214,7 @@ $.fn.fishBone = function (data) {
     index += 1
     if (index % 2 == 0) {
             // 偶数显示到下方
-      return 'top'
+      return 'bottom'
     } else {
             // 奇数显示到上方
       return 'top'
