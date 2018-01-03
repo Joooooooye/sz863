@@ -1303,6 +1303,7 @@
         bd = document.getElementById('fishBone0' + index).getElementsByTagName('ul')[0]
         var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
         svg.setAttribute('class', 'd3_map')
+        svg.setAttribute('style', 'z-index:1;top:0;position:absolute;left:0;height:350px;width:1800px;visibility:visible')
 
         bd.appendChild(svg)
 
