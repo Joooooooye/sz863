@@ -43,6 +43,8 @@
 		</div>
 	</div>
 	<hr>
+	<p ng-if="!items.length" class="warning" style="text-align: center;">暂无评估分数</p>
+
 	<div class="row" ng-repeat="hi in hellos" style="padding-left: 30px;margin-top: 30px">
     	<!-- <p style="text-align: right;color:#aaa;font-weight: bold;">每项总分为100分</p> -->
     	<div class="col-sm-3" >

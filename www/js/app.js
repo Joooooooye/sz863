@@ -54,7 +54,7 @@ angular.module('IntelligentDetector', ['ui.router', 'ui.bootstrap', 'controllers
                   controller: 'inspectionCtrl'
                 })
                 .state('main.monitors.diagnosis', {
-                  url: '/inspection',
+                  url: '/diagnosis',
                   templateUrl: 'templates/main/monitors/diagnosis.html',
                   controller: 'diagnosisCtrl'
                 })

@@ -14,7 +14,7 @@
 		<div class="col-sm-5" id="examRec">
 			<div class="myCard">
 		      	<h3 class="card-title cardTitle">医学检查建议</h3>
-		      	<div>
+		      	<div ng-if="exams.LabExam.length||exams.LabExam.length">
 		      		<h5 class="label label-warning" style="font-size: 12px;margin-top: 10px;display: inline-block;">实验室检查</h5> 
 
 			      	<ol style="margin-top: 10px" class="must">
@@ -25,7 +25,7 @@
 		      			<li ng-repeat="labop in exams.LabExamOp">{{labop}}</li>
 		      		</ol>
 		      	</div>
-		      	<div>
+		      	<div ng-if="exams.PhyExam.length||exams.PhyExam.length">
 		      		<h5 class="label label-warning" style="font-size: 12px;margin-top: 10px;display: inline-block;">物理检查</h5> 
 
 			      	<ol style="margin-top: 10px" class="must">
@@ -36,7 +36,7 @@
 		      			<li ng-repeat="phyop in exams.PhyExamOp">{{phyop}}</li>
 		      		</ol>
 		      	</div>
-		      	<div>
+		      	<div ng-if="exams.SpeExam.length||exams.PhyExamOp.length">
 		      		<h5 class="label label-warning" style="font-size: 12px;margin-top: 10px;display: inline-block;">特殊检查</h5> 
 
 			      	<ol style="margin-top: 10px" class="must">
